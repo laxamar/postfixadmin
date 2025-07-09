@@ -151,6 +151,9 @@ $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
 $PALANG['pEdit_alias_result_error'] = 'Modifying the alias %s failed!';
+$PALANG['pEdit_alias_regex'] = 'Regular Expression';
+$PALANG['pEdit_alias_regex_desc'] = 'Enable regular expression matching for this alias (advanced users only)';
+$PALANG['pEdit_alias_regex_error'] = 'Invalid regular expression pattern. Please check your syntax.';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new mailbox for your domain.';
 $PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.';

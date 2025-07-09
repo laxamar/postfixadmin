@@ -54,6 +54,7 @@ class AliasHandler extends PFAHandler
             'created'          => pacol(0,          0,      0,      'ts',   'created'                       , ''),
             'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1),
+            'x_regexp'         => pacol(1,          1,      1,      'bool', 'pEdit_alias_regex'             , 'pEdit_alias_regex_desc'          , 0),
             '_can_edit'        => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
                 array('select' => '1 as _can_edit')),
             '_can_delete'      => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
@@ -209,6 +210,14 @@ class AliasHandler extends PFAHandler
 
         if ($local_part == '') { # catchall
             $valid = true;
+        } elseif (isset($this->values['x_regexp']) && $this->values['x_regexp'] == 1) {
+            # regex alias - validate as regex pattern instead of email
+            if ($this->validate_regex_pattern($this->id)) {
+                $valid = true;
+            } else {
+                $this->errormsg[$this->id_field] = Config::lang('pEdit_alias_regex_error');
+                $valid = false;
+            }
         } else {
             $email_check = check_email($this->id);
             if ($email_check == '') {
@@ -220,6 +229,63 @@ class AliasHandler extends PFAHandler
         }
 
         return $valid;
+    }
+
+    /**
+     * Validate regex pattern when x_regexp is enabled
+     */
+    private function validate_regex_pattern($pattern)
+    {
+        // Basic regex pattern validation
+        if (empty($pattern)) {
+            return false;
+        }
+
+        // Test if the pattern is a valid regex by trying to compile it
+        $test_result = @preg_match('/' . $pattern . '/', 'test@example.com');
+        
+        // preg_match returns false on error, 0 or 1 on success
+        if ($test_result === false) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    /**
+     * Validate address field - called during both new and edit operations
+     */
+    protected function _validate_address($field, $val)
+    {
+        if (empty($val)) {
+            $this->errormsg[$field] = Config::lang('pCreate_alias_address_text_error1');
+            return false;
+        }
+
+        // For regex aliases, validate as regex pattern
+        if (isset($this->values['x_regexp']) && $this->values['x_regexp'] == 1) {
+            if ($this->validate_regex_pattern($val)) {
+                return true;
+            } else {
+                $this->errormsg[$field] = Config::lang('pEdit_alias_regex_error');
+                return false;
+            }
+        }
+
+        // For regular aliases, use standard email validation
+        list($local_part, $domain) = explode('@', $val);
+        
+        if ($local_part == '') { # catchall
+            return true;
+        } else {
+            $email_check = check_email($val);
+            if ($email_check == '') {
+                return true;
+            } else {
+                $this->errormsg[$field] = $email_check;
+                return false;
+            }
+        }
     }
 
     /**
