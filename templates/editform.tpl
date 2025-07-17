@@ -89,6 +89,11 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
+		<div class="btn-group pull-left">
+		    <a href="{$listview}" class="btn btn-default">
+				<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Cancel
+		    </a>
+		</div>
 		<div class="btn-group pull-right">
 		    <button class="btn btn-primary" type="submit" name="submit">
 				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}

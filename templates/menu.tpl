@@ -70,6 +70,7 @@
                                         <a href="{#url_create_alias_domain#}{$url_domain}">{$PALANG.add_alias_domain}</a>
                                     </li>
                                 {/if}
+                                <li><a href="{#url_list_blacklist#}"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> {$PALANG.pMenu_blacklist}</a></li>
                             </ul>
                         </li>
                     {/strip}

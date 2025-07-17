@@ -243,6 +243,7 @@ if ($new) {
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);
 $smarty->assign('table', $table);
+$smarty->assign('listview', $formconf['listview']);
 $smarty->assign('smarty_template', 'editform');
 $smarty->display('index.tpl');
 

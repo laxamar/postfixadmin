@@ -64,6 +64,26 @@ $PALANG['pMenu_password'] = 'Password';
 $PALANG['pMenu_totp'] = 'TOTP';
 $PALANG['pMenu_totp_exceptions'] = 'TOTP exemptions';
 $PALANG['pMenu_app_passwords'] = 'Application passwords';
+$PALANG['pMenu_blacklist'] = 'Recipient Blacklist';
+$PALANG['pBlacklist_address_field'] = 'Address/Pattern';
+$PALANG['pBlacklist_address_desc'] = 'Email address or domain pattern (e.g., bad@domain.com or @spammer.com)';
+$PALANG['pBlacklist_address_field'] = 'Address/Pattern';
+$PALANG['pBlacklist_action'] = 'Action';
+$PALANG['pBlacklist_action_desc'] = 'Action to take: REJECT (bounce), DISCARD (delete silently), DEFER (temporary failure)';
+$PALANG['pBlacklist_new_entry'] = 'Add Blacklist Entry';
+$PALANG['pBlacklist_edit_entry'] = 'Edit Blacklist Entry';
+$PALANG['pBlacklist_cancel_button'] = 'Cancel';
+$PALANG['pBlacklist_address_already_exists'] = 'This address is already blacklisted';
+$PALANG['pBlacklist_address_does_not_exist'] = 'Blacklist entry does not exist';
+$PALANG['pBlacklist_confirm_delete'] = 'Are you sure you want to delete this blacklist entry?';
+$PALANG['pBlacklist_address_empty'] = 'Address cannot be empty';
+$PALANG['pBlacklist_address_invalid'] = 'Invalid email address or domain pattern';
+$PALANG['pBlacklist_database_save_error'] = 'Failed to save blacklist entry';
+$PALANG['pBlacklist_database_save_success'] = 'Blacklist entry %s has been saved successfully!';
+
+$PALANG['pViewlog_action_create_blacklist_entry'] = 'create blacklist entry';
+$PALANG['pViewlog_action_edit_blacklist_entry'] = 'edit blacklist entry';
+$PALANG['pViewlog_action_delete_blacklist_entry'] = 'delete blacklist entry';
 $PALANG['pMenu_viewlog'] = 'View Log';
 $PALANG['pMenu_logout'] = 'Logout';
 

@@ -371,6 +371,7 @@ $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
+$CONF['mysql_virtual_recipient_blacklist_struct_hook'] = '';
 
 /*
     mailbox_postcreation_hook example function
