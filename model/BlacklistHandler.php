@@ -16,14 +16,14 @@ class BlacklistHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type     $PALANG label           $PALANG description          default / options / ...
             #                           editing?    form    list
-            'address'          => pacol($this->new, 1,      1,      'text', 'pBlacklist_address_field' , 'pBlacklist_address_desc'   , ''),
-            'action'           => pacol(1,          1,      1,      'enum', 'pBlacklist_action'    , 'pBlacklist_action_desc'    , 'REJECT', 
+            'address'          => self::pacol($this->new, 1,      1,      'text', 'pBlacklist_address_field' , 'pBlacklist_address_desc'   , ''),
+            'action'           => self::pacol(1,          1,      1,      'enum', 'pBlacklist_action'    , 'pBlacklist_action_desc'    , 'REJECT', 
                 array('REJECT', 'DISCARD', 'DEFER')),
-            'active'           => pacol(1,          1,      1,      'bool', 'active'               , ''                          , 1),
-            'domain'           => pacol(0,          0,      1,      'text', 'domain'               , ''                          , '', array(),
+            'active'           => self::pacol(1,          1,      1,      'bool', 'active'               , ''                          , 1),
+            'domain'           => self::pacol(0,          0,      1,      'text', 'domain'               , ''                          , '', array(),
                 array('dont_write_to_db' => 1)), # domain is a generated column
-            'created'          => pacol(0,          0,      1,      'ts',   'created'              , ''),
-            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'        , ''),
+            'created'          => self::pacol(0,          0,      1,      'ts',   'created'              , ''),
+            'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'        , ''),
         );
     }
 
