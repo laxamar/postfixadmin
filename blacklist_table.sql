@@ -1,7 +1,7 @@
 -- MySQL table for PostfixAdmin Recipient Blacklist feature
 -- This table stores email addresses or patterns that should be rejected/discarded
 
-CREATE TABLE IF NOT EXISTS `mysql_virtual_recipient_blacklist` (
+CREATE TABLE IF NOT EXISTS `recipient_blacklist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `address` varchar(255) NOT NULL COMMENT 'Email address or pattern (e.g., bad@domain.com or @spammer.com)',
   `action` varchar(20) NOT NULL DEFAULT 'REJECT' COMMENT 'Action to take: REJECT, DISCARD, DEFER',
@@ -16,6 +16,6 @@ CREATE TABLE IF NOT EXISTS `mysql_virtual_recipient_blacklist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Recipient blacklist for email rejection/filtering';
 
 -- Example entries
-INSERT IGNORE INTO `mysql_virtual_recipient_blacklist` (`address`, `action`, `domain`) VALUES
+INSERT IGNORE INTO `recipient_blacklist` (`address`, `action`, `domain`) VALUES
 ('@spam.example.com', 'REJECT', 'example.com'),
 ('baduser@anywhere.com', 'DISCARD', 'example.com');

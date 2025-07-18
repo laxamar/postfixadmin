@@ -144,6 +144,7 @@ $CONF['database_tables'] = array (
     'quota2' => 'quota2',
     'dkim' => 'dkim',
     'dkim_signing' => 'dkim_signing',
+    'recipient_blacklist' => 'recipient_blacklist',
 );
 
 // Site Admin
@@ -371,7 +372,8 @@ $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
-$CONF['mysql_virtual_recipient_blacklist_struct_hook'] = '';
+$CONF['recipient_blacklist_struct_hook']           = '';
+$CONF['mysql_virtual_recipient_blacklist_struct_hook'] = ''; // deprecated - use recipient_blacklist_struct_hook
 
 /*
     mailbox_postcreation_hook example function

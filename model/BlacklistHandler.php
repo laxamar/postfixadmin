@@ -5,7 +5,7 @@
  */
 class BlacklistHandler extends PFAHandler
 {
-    protected $db_table = 'mysql_virtual_recipient_blacklist';
+    protected $db_table = 'recipient_blacklist';
     protected $id_field = 'address';
     protected $domain_field = 'domain';
     protected $order_by = 'address';
