@@ -97,6 +97,20 @@
                 {else}
                     {$item._active}
                 {/if}
+                {elseif $key == 'x_regexp'}
+                {if $item._can_edit}
+                    <a class="btn btn-{if ($item.x_regexp==0)}info{else}warning{/if}"
+                       href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;field=x_regexp&amp;x_regexp={if ($item.x_regexp==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
+                        {if $item._x_regexp == $PALANG['YES']}
+                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                        {else}
+                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                        {/if}
+                        {$item._x_regexp}
+                    </a>
+                {else}
+                    {$item._x_regexp}
+                {/if}
                 {elseif $field.type == 'bool'}
                 {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
                 {elseif $field.type == 'list'}

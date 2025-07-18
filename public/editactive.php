@@ -30,9 +30,15 @@ $username = authentication_get_username(); # enforce login
 $id = safeget('id');
 $table = safeget('table');
 $field = safeget('field');
-$active = safeget('active');
 if ($field === '') {
     $field = 'active';
+}
+
+# Get the new value from the appropriate parameter
+if ($field === 'active') {
+    $active = safeget('active');
+} else {
+    $active = safeget($field);
 }
 
 if (empty($table)) {
@@ -54,6 +60,10 @@ authentication_require_role($formconf['required_role']);
 if ($handler->init($id)) { # errors will be displayed as last step anyway, no need for duplicated code ;-)
     if ($table == 'mailbox') {
         if ($field != 'active' && $field != 'smtp_active') {
+            die(Config::Lang('invalid_parameter'));
+        }
+    } elseif ($table == 'alias') {
+        if ($field != 'active' && $field != 'x_regexp') {
             die(Config::Lang('invalid_parameter'));
         }
     } else {
