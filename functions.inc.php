@@ -16,7 +16,7 @@
  */
 
 
-$min_db_version = 1844;  # update (at least) before a release with the latest function number in upgrade.php
+$min_db_version = 1850;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**
@@ -472,54 +472,6 @@ function safesession($param, $default = "")
 
 
 /**
- * pacol
- * @param int $allow_editing
- * @param int $display_in_form
- * @param int display_in_list
- * @param string $type
- * @param string PALANG_label
- * @param string PALANG_desc
- * @param any optional $default
- * @param array $options optional options
- * @param int or $not_in_db - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
- * @return array for $struct
- */
-function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt = 0, $dont_write_to_db = 0, $select = "", $extrafrom = "", $linkto = "")
-{
-    if ($PALANG_label != '') {
-        $PALANG_label = Config::lang($PALANG_label);
-    }
-    if ($PALANG_desc != '') {
-        $PALANG_desc = Config::lang($PALANG_desc);
-    }
-
-    if (is_array($multiopt)) { # remaining parameters provided in named array
-        $not_in_db = 0; # keep default value
-        foreach ($multiopt as $key => $value) {
-            $$key = $value; # extract everything to the matching variable
-        }
-    } else {
-        $not_in_db = $multiopt;
-    }
-
-    return array(
-        'editable' => $allow_editing,
-        'display_in_form' => $display_in_form,
-        'display_in_list' => $display_in_list,
-        'type' => $type,
-        'label' => $PALANG_label,   # $PALANG field label
-        'desc' => $PALANG_desc,    # $PALANG field description
-        'default' => $default,
-        'options' => $options,
-        'not_in_db' => $not_in_db,
-        'dont_write_to_db' => $dont_write_to_db,
-        'select' => $select,         # replaces the field name after SELECT
-        'extrafrom' => $extrafrom,      # added after FROM xy - useful for JOINs etc.
-        'linkto' => $linkto,         # make the value a link - %s will be replaced with the ID
-    );
-}
-
-/**
  * Action: Get all the properties of a domain.
  * @param string $domain
  * @return array
@@ -938,7 +890,6 @@ function validate_password(string $password): array
 
     return $result;
 }
-
 
 
 /**
@@ -1490,7 +1441,7 @@ function smtp_get_response($fh)
 $DEBUG_TEXT = <<<EOF
     <p>Please check the documentation and website for more information.</p>
     <ul>
-        <li><a href="http://postfixadmin.sf.net">PostfixAdmin - Project website</a></li>
+        <li><a href="https://github.com/postfixadmin/postfixadmin">PostfixAdmin - Project website</a></li>
         <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
     </ul>
 EOF;
