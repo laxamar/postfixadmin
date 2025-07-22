@@ -210,21 +210,25 @@ class AliasHandler extends PFAHandler
 
         if ($local_part == '') { # catchall
             $valid = true;
-        } elseif (isset($this->values['x_regexp']) && $this->values['x_regexp'] == 1) {
-            # regex alias - validate as regex pattern instead of email
-            if ($this->validate_regex_pattern($this->id)) {
-                $valid = true;
-            } else {
-                $this->errormsg[$this->id_field] = Config::lang('pEdit_alias_regex_error');
-                $valid = false;
-            }
         } else {
+            # Try email validation first
             $email_check = check_email($this->id);
             if ($email_check == '') {
+                # Valid as email address
                 $valid = true;
+                # Make sure x_regexp is not set for regular emails
+                $this->values['x_regexp'] = 0;
             } else {
-                $this->errormsg[$this->id_field] = $email_check;
-                $valid = false;
+                # Failed email validation, try as regex pattern
+                if ($this->validate_regex_pattern($this->id)) {
+                    # Valid as regex pattern - automatically set x_regexp flag
+                    $this->values['x_regexp'] = 1;
+                    $valid = true;
+                } else {
+                    # Invalid as both email and regex
+                    $this->errormsg[$this->id_field] = $email_check; # Show the email validation error
+                    $valid = false;
+                }
             }
         }
 
@@ -241,8 +245,27 @@ class AliasHandler extends PFAHandler
             return false;
         }
 
+        // For regex patterns, we need to validate them as valid regular expressions
+        // Find a delimiter that doesn't appear in the pattern
+        $delimiters = ['~', '#', '!', '@', '%', '|', '+'];
+        $delimiter = null;
+        
+        foreach ($delimiters as $d) {
+            if (strpos($pattern, $d) === false) {
+                $delimiter = $d;
+                break;
+            }
+        }
+        
+        // If no safe delimiter found, use ~ and escape it in the pattern
+        if ($delimiter === null) {
+            $delimiter = '~';
+            $pattern = str_replace('~', '\~', $pattern);
+        }
+        
         // Test if the pattern is a valid regex by trying to compile it
-        $test_result = @preg_match('/' . $pattern . '/', 'test@example.com');
+        $regex_to_test = $delimiter . $pattern . $delimiter;
+        $test_result = @preg_match($regex_to_test, 'test@example.com');
         
         // preg_match returns false on error, 0 or 1 on success
         if ($test_result === false) {
@@ -262,28 +285,29 @@ class AliasHandler extends PFAHandler
             return false;
         }
 
-        // For regex aliases, validate as regex pattern
-        if (isset($this->values['x_regexp']) && $this->values['x_regexp'] == 1) {
-            if ($this->validate_regex_pattern($val)) {
-                return true;
-            } else {
-                $this->errormsg[$field] = Config::lang('pEdit_alias_regex_error');
-                return false;
-            }
-        }
-
-        // For regular aliases, use standard email validation
+        // For regular aliases, try email validation first, then regex if that fails
         list($local_part, $domain) = explode('@', $val);
         
         if ($local_part == '') { # catchall
             return true;
         } else {
+            # Try email validation first
             $email_check = check_email($val);
             if ($email_check == '') {
+                # Valid as email address
+                $this->values['x_regexp'] = 0;
                 return true;
             } else {
-                $this->errormsg[$field] = $email_check;
-                return false;
+                # Failed email validation, try as regex pattern
+                if ($this->validate_regex_pattern($val)) {
+                    # Valid as regex pattern - automatically set x_regexp flag
+                    $this->values['x_regexp'] = 1;
+                    return true;
+                } else {
+                    # Invalid as both email and regex
+                    $this->errormsg[$field] = $email_check; # Show the email validation error
+                    return false;
+                }
             }
         }
     }

@@ -2398,3 +2398,26 @@ function upgrade_1850()
     // see also: https://github.com/postfixadmin/postfixadmin/issues/891
     _db_add_field('mailbox', 'smtp_active', '{BOOLEAN_TRUE}');
 }
+
+/**
+ * Add recipient_blacklist table for custom blacklist functionality
+ * @return void
+ */
+function upgrade_custom_blacklist()
+{
+    $table_recipient_blacklist = table_by_key('recipient_blacklist');
+    
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $table_recipient_blacklist (
+            `recipient` varchar(255) {LATIN1} NOT NULL,
+            `notes` varchar(255) {UTF-8} DEFAULT '',
+            `created` {DATETIME},
+            `modified` {DATETIME},
+            `active` {BOOLEAN_TRUE},
+            PRIMARY KEY (`recipient`),
+            KEY `recipient_active` (`recipient`, `active`)
+        ) {COLLATE} COMMENT='PostfixAdmin - Recipient Blacklist';
+    ");
+     _db_add_field('alias', 'x_regexp', '{BOOLEAN}', 'active');
+
+}
